@@ -6,7 +6,7 @@ class Node{
     }
 }
 
-class HistoryApp{
+class DoubleLinkedList{
 
     constructor(){
         this.head = null
@@ -14,23 +14,75 @@ class HistoryApp{
         this.current = null
     }
 
-    openApp(name){
+    insertBack(data){
 
-        const newNode = new Node(name)
+        const newNode = new Node(data)
 
         if(!this.head){
             this.head = this.tail = this.current = newNode
             return
         }
 
-        this.current.next = null
-        this.tail = this.current
-
         this.tail.next = newNode
         newNode.prev = this.tail
 
         this.tail = newNode
         this.current = newNode
+    }
+
+    insertFront(data){
+
+        const newNode = new Node(data)
+
+        if(!this.head){
+            this.head = this.tail = this.current = newNode
+            return
+        }
+
+        newNode.next = this.head
+        this.head.prev = newNode
+
+        this.head = newNode
+        this.current = newNode
+    }
+
+    insertMiddle(after,data){
+
+        let temp = this.head
+
+        while(temp){
+
+            if(temp.data === after){
+
+                const newNode = new Node(data)
+
+                // kalau tail
+                if(temp === this.tail){
+
+                    temp.next = newNode
+                    newNode.prev = temp
+
+                    this.tail = newNode
+                    this.current = newNode
+
+                    return true
+                }
+
+                newNode.next = temp.next
+                newNode.prev = temp
+
+                temp.next.prev = newNode
+                temp.next = newNode
+
+                this.current = newNode
+
+                return true
+            }
+
+            temp = temp.next
+        }
+
+        return false
     }
 
     back(){
@@ -53,36 +105,68 @@ class HistoryApp{
         return null
     }
 
-    closeCurrent(){
+    deleteFront(){
 
-        if(!this.current) return
+        if(!this.head) return
 
-        let temp = this.current
-
-        // satu node
         if(this.head === this.tail){
             this.head = this.tail = this.current = null
             return
         }
 
-        // awal
+        this.head = this.head.next
+        this.head.prev = null
+
+        this.current = this.head
+    }
+
+    deleteBack(){
+
+        if(!this.tail) return
+
+        if(this.head === this.tail){
+            this.head = this.tail = this.current = null
+            return
+        }
+
+        this.tail = this.tail.prev
+        this.tail.next = null
+
+        this.current = this.tail
+    }
+
+    deleteCurrent(){
+
+        if(!this.current) return
+
+        let temp = this.current
+
+        if(this.head === this.tail){
+            this.head = this.tail = this.current = null
+            return
+        }
+
         if(temp === this.head){
+
             this.head = this.head.next
             this.head.prev = null
+
             this.current = this.head
         }
 
-        // akhir
         else if(temp === this.tail){
+
             this.tail = this.tail.prev
             this.tail.next = null
+
             this.current = this.tail
         }
 
-        // tengah
         else{
+
             temp.prev.next = temp.next
             temp.next.prev = temp.prev
+
             this.current = temp.prev
         }
     }
@@ -106,57 +190,183 @@ class HistoryApp{
     }
 }
 
-const app = new HistoryApp()
+const allowedApps = [
+    "WhatsApp",
+    "TikTok",
+    "Instagram",
+    "YouTube",
+    "Chrome",
+    "Spotify",
+    "VS Code",
+    "Dota 2",
+    "Galeri",
+    "My Best"
+]
+
+const dll = new DoubleLinkedList()
 
 
-function openApp(name){
+// LOAD SELECT OPTION
+function loadSelect(){
 
-    app.openApp(name)
+    const frontSelect =
+    document.getElementById("frontApp")
 
-    updateUI()
+    const middleSelect =
+    document.getElementById("middleApp")
 
-    document.getElementById("status")
-    .innerText = `Membuka ${name}`
+    allowedApps.forEach(app=>{
+
+        let option1 =
+        document.createElement("option")
+
+        option1.value = app
+        option1.textContent = app
+
+        frontSelect.appendChild(option1)
+
+        let option2 =
+        document.createElement("option")
+
+        option2.value = app
+        option2.textContent = app
+
+        middleSelect.appendChild(option2)
+    })
 }
 
 
+// INSERT BELAKANG
+function insertBack(name){
+
+    dll.insertBack(name)
+
+    updateUI()
+
+    status(`Membuka ${name}`)
+}
+
+
+// INSERT DEPAN
+function insertFrontUI(){
+
+    const app =
+    document.getElementById("frontApp").value
+
+    if(!allowedApps.includes(app)){
+        status("Aplikasi tidak valid")
+        return
+    }
+
+    dll.insertFront(app)
+
+    updateUI()
+
+    status(`${app} ditambahkan di depan`)
+}
+
+
+// INSERT TENGAH
+function insertMiddleUI(){
+
+    const newApp =
+    document.getElementById("middleApp").value
+
+    const afterApp =
+    document.getElementById("afterApp").value
+
+    // validasi app
+    if(!allowedApps.includes(newApp)){
+        status("Aplikasi tidak valid")
+        return
+    }
+
+    let result =
+    dll.insertMiddle(afterApp,newApp)
+
+    if(result){
+        status(`${newApp} disisipkan setelah ${afterApp}`)
+    }
+    else{
+        status("App tujuan tidak ditemukan")
+    }
+
+    updateUI()
+}
+
+
+// BACK
 function backApp(){
 
-    let result = app.back()
+    let result = dll.back()
 
     updateUI()
 
-    document.getElementById("status")
-    .innerText = result
-    ? `Kembali ke ${result}`
-    : "Tidak ada history sebelumnya"
+    status(
+        result
+        ? `Kembali ke ${result}`
+        : "Tidak ada previous"
+    )
 }
 
 
+// FORWARD
 function forwardApp(){
 
-    let result = app.forward()
+    let result = dll.forward()
 
     updateUI()
 
-    document.getElementById("status")
-    .innerText = result
-    ? `Maju ke ${result}`
-    : "Tidak ada history berikutnya"
+    status(
+        result
+        ? `Maju ke ${result}`
+        : "Tidak ada next"
+    )
 }
 
 
-function closeCurrent(){
+// DELETE DEPAN
+function deleteFront(){
 
-    app.closeCurrent()
+    dll.deleteFront()
 
     updateUI()
 
-    document.getElementById("status")
-    .innerText = "App ditutup"
+    status("Node depan dihapus")
 }
 
 
+// DELETE BELAKANG
+function deleteBack(){
+
+    dll.deleteBack()
+
+    updateUI()
+
+    status("Node belakang dihapus")
+}
+
+
+// DELETE CURRENT
+function deleteCurrent(){
+
+    dll.deleteCurrent()
+
+    updateUI()
+
+    status("Current node dihapus")
+}
+
+
+// STATUS
+function status(text){
+
+    document.getElementById("status")
+    .innerText = text
+}
+
+
+// UPDATE UI
 function updateUI(){
 
     const historyList =
@@ -168,23 +378,27 @@ function updateUI(){
     historyList.innerHTML = ""
     nodes.innerHTML = ""
 
-    let history = app.getHistory()
+    const history = dll.getHistory()
 
     history.forEach((item,index)=>{
 
-        // history
-        let li = document.createElement("li")
+        // HISTORY
+        const li =
+        document.createElement("li")
 
-        li.innerText = item.active
-        ? `${item.name} ← Active`
+        li.innerText =
+        item.active
+        ? `${item.name} ← CURRENT`
         : item.name
 
         historyList.appendChild(li)
 
-        // visual node
-        let node = document.createElement("div")
+        // NODE
+        const node =
+        document.createElement("div")
 
-        node.className = item.active
+        node.className =
+        item.active
         ? "node active"
         : "node"
 
@@ -192,10 +406,10 @@ function updateUI(){
 
         nodes.appendChild(node)
 
-        // arrow
+        // DOUBLE ARROW
         if(index < history.length-1){
 
-            let arrow =
+            const arrow =
             document.createElement("div")
 
             arrow.className = "arrow"
@@ -206,3 +420,7 @@ function updateUI(){
         }
     })
 }
+
+
+// LOAD
+loadSelect()
