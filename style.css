@@ -8,12 +8,11 @@
 body{
     background:#121212;
     color:white;
-    min-height:100vh;
     padding:30px;
 }
 
 .container{
-    max-width:1200px;
+    max-width:1300px;
     margin:auto;
 }
 
@@ -24,7 +23,7 @@ h1{
 
 .apps{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
     gap:15px;
 }
 
@@ -34,9 +33,9 @@ h1{
     padding:20px;
     border-radius:15px;
     color:white;
-    font-size:16px;
     cursor:pointer;
     transition:0.3s;
+    font-size:15px;
 }
 
 .apps button:hover{
@@ -50,21 +49,53 @@ h1{
     margin-bottom:10px;
 }
 
+.insert-box{
+    margin-top:25px;
+    background:#1f1f1f;
+    padding:20px;
+    border-radius:15px;
+}
+
+.insert-box h2{
+    margin-bottom:15px;
+}
+
+.insert-box select,
+.insert-box input{
+    width:100%;
+    padding:12px;
+    margin-bottom:10px;
+    border:none;
+    border-radius:10px;
+    background:#2b2b2b;
+    color:white;
+}
+
+.insert-box button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#00aa88;
+    color:white;
+    cursor:pointer;
+}
+
 .controls{
     margin-top:30px;
     display:flex;
     gap:15px;
+    flex-wrap:wrap;
     justify-content:center;
 }
 
 .controls button{
-    padding:12px 25px;
+    padding:12px 20px;
     border:none;
     border-radius:10px;
     background:#2d89ef;
     color:white;
     cursor:pointer;
-    font-size:16px;
 }
 
 .status{
@@ -79,8 +110,8 @@ h1{
 }
 
 .history ul{
-    margin-top:15px;
     list-style:none;
+    margin-top:15px;
 }
 
 .history li{
@@ -97,7 +128,8 @@ h1{
 #nodes{
     display:flex;
     flex-wrap:wrap;
-    gap:20px;
+    align-items:center;
+    gap:15px;
     margin-top:20px;
 }
 
@@ -105,10 +137,10 @@ h1{
     background:#2d89ef;
     padding:20px;
     border-radius:15px;
-    min-width:120px;
+    min-width:130px;
     text-align:center;
-    position:relative;
     transition:0.3s;
+    font-weight:bold;
 }
 
 .active{
@@ -117,6 +149,6 @@ h1{
 }
 
 .arrow{
-    font-size:30px;
-    align-self:center;
+    font-size:35px;
+    color:white;
 }
