@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern History App</title>
+    <title>Double Linked List History App</title>
 
     <link rel="stylesheet" href="style.css">
 
-    <!-- ICON -->
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
@@ -15,90 +14,142 @@
 
     <div class="container">
 
-        <h1>📱 Modern History App</h1>
+        <h1>📱 DOUBLE LINKED LIST HISTORY APP</h1>
 
         <!-- APPS -->
         <div class="apps">
 
-            <button onclick="openApp('WhatsApp')">
+            <button onclick="insertBack('WhatsApp')">
                 <i class="fa-brands fa-whatsapp"></i>
                 WhatsApp
             </button>
 
-            <button onclick="openApp('TikTok')">
+            <button onclick="insertBack('TikTok')">
                 <i class="fa-brands fa-tiktok"></i>
                 TikTok
             </button>
 
-            <button onclick="openApp('Instagram')">
+            <button onclick="insertBack('Instagram')">
                 <i class="fa-brands fa-instagram"></i>
                 Instagram
             </button>
 
-            <button onclick="openApp('YouTube')">
+            <button onclick="insertBack('YouTube')">
                 <i class="fa-brands fa-youtube"></i>
                 YouTube
             </button>
 
-            <button onclick="openApp('Chrome')">
+            <button onclick="insertBack('Chrome')">
                 <i class="fa-brands fa-chrome"></i>
                 Chrome
             </button>
 
-            <button onclick="openApp('Spotify')">
+            <button onclick="insertBack('Spotify')">
                 <i class="fa-brands fa-spotify"></i>
                 Spotify
             </button>
 
-            <button onclick="openApp('VS Code')">
+            <button onclick="insertBack('VS Code')">
                 <i class="fa-solid fa-code"></i>
                 VS Code
             </button>
 
-            <button onclick="openApp('Dota 2')">
+            <button onclick="insertBack('Dota 2')">
                 <i class="fa-solid fa-gamepad"></i>
                 Dota 2
             </button>
 
-            <button onclick="openApp('Galeri')">
+            <button onclick="insertBack('Galeri')">
                 <i class="fa-solid fa-image"></i>
                 Galeri
             </button>
 
-            <button onclick="openApp('My Best')">
+            <button onclick="insertBack('My Best')">
                 <i class="fa-solid fa-heart"></i>
                 My Best
             </button>
 
         </div>
 
+
+        <!-- INSERT DEPAN -->
+        <div class="insert-box">
+
+            <h2>⬅ Insert Depan</h2>
+
+            <select id="frontApp">
+                <option value="">Pilih aplikasi</option>
+            </select>
+
+            <button onclick="insertFrontUI()">
+                Insert Depan
+            </button>
+
+        </div>
+
+
+        <!-- INSERT TENGAH -->
+        <div class="insert-box">
+
+            <h2>🔗 Insert Tengah</h2>
+
+            <select id="middleApp">
+                <option value="">Pilih aplikasi</option>
+            </select>
+
+            <input type="text"
+            id="afterApp"
+            placeholder="Sisipkan setelah aplikasi">
+
+            <button onclick="insertMiddleUI()">
+                Insert Tengah
+            </button>
+
+        </div>
+
+
         <!-- CONTROL -->
         <div class="controls">
 
             <button onclick="backApp()">⬅ Back</button>
+
             <button onclick="forwardApp()">➡ Forward</button>
-            <button onclick="closeCurrent()">❌ Close</button>
+
+            <button onclick="deleteFront()">
+                ❌ Hapus Depan
+            </button>
+
+            <button onclick="deleteCurrent()">
+                🗑 Hapus Current
+            </button>
+
+            <button onclick="deleteBack()">
+                ❌ Hapus Belakang
+            </button>
 
         </div>
+
 
         <!-- STATUS -->
         <div class="status" id="status">
             Pilih aplikasi
         </div>
 
+
         <!-- HISTORY -->
         <div class="history">
 
-            <h2>History</h2>
+            <h2>📜 History</h2>
 
             <ul id="historyList"></ul>
 
         </div>
 
-        <!-- NODE VISUAL -->
+
+        <!-- VISUAL -->
         <div class="visual">
 
-            <h2>Double Linked List Visual</h2>
+            <h2>🔗 Double Linked List Visual</h2>
 
             <div id="nodes"></div>
 
